@@ -1,0 +1,14 @@
+dataset,categoria,img_auroc,px_auroc,au_pro
+visa,candle,90.99,98.9,95.23
+visa,capsules,83.78,98.55,87.54
+visa,cashew,96.0,98.27,92.7
+visa,chewinggum,99.06,98.47,82.92
+visa,fryum,95.92,95.51,84.25
+visa,macaroni1,95.04,99.47,96.6
+visa,macaroni2,87.44,99.16,94.74
+visa,pcb1,94.17,99.72,96.12
+visa,pcb2,94.15,98.64,90.57
+visa,pcb3,92.9,98.93,90.37
+visa,pcb4,99.01,98.67,91.3
+visa,pipe_fryum,99.06,99.06,93.67
+visa,MEDIA,93.96,98.61,91.34

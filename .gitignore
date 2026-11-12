@@ -1,0 +1,16 @@
+# Dataset (baixe conforme o README — ~2 GB)
+content/
+dados/
+
+# Caches e checkpoints de treino
+cache/
+modelos_stfpm/
+*.pt
+
+# Documento interno
+ESPECIFICACAO.md
+
+# Ambiente / editor
+.venv/
+__pycache__/
+.ipynb_checkpoints/
