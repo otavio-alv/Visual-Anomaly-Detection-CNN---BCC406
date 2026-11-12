@@ -1,0 +1,185 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 775" width="1200" height="775" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <title>Arquitetura STFPM: professora congelada, aluna treinável, mapas de discrepância, treino e inferência</title>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#475569"/>
+    </marker>
+    <radialGradient id="heat" cx="42%" cy="52%" r="48%">
+      <stop offset="0%" stop-color="#dc2626"/>
+      <stop offset="28%" stop-color="#facc15"/>
+      <stop offset="60%" stop-color="#22d3ee"/>
+      <stop offset="100%" stop-color="#1e3a8a"/>
+    </radialGradient>
+  </defs>
+
+  <rect x="0.5" y="0.5" width="1199" height="774" rx="12" fill="#ffffff" stroke="#d0d7de"/>
+
+  <!-- Título -->
+  <text x="600" y="38" text-anchor="middle" font-size="22" font-weight="700" fill="#0f172a">STFPM — Student-Teacher Feature Pyramid Matching</text>
+  <text x="600" y="62" text-anchor="middle" font-size="14" fill="#475569">Onde a aluna não consegue imitar a professora, há anomalia</text>
+
+  <!-- ===== Entrada ===== -->
+  <rect x="30" y="155" width="130" height="130" rx="6" fill="#1f2937"/>
+  <ellipse cx="95" cy="220" rx="40" ry="28" fill="#e7c9a0"/>
+  <circle cx="112" cy="228" r="6" fill="none" stroke="#ef4444" stroke-width="2"/>
+  <text x="95" y="308" text-anchor="middle" font-size="13" font-weight="600" fill="#0f172a">Imagem 256×256</text>
+  <text x="95" y="325" text-anchor="middle" font-size="11" fill="#475569">treino: só normais</text>
+  <text x="95" y="340" text-anchor="middle" font-size="11" fill="#475569">teste: pode ter defeito</text>
+
+  <path d="M160,220 H180 M180,120 V320" fill="none" stroke="#475569" stroke-width="1.6"/>
+  <path d="M180,120 H193" fill="none" stroke="#475569" stroke-width="1.6" marker-end="url(#a)"/>
+  <path d="M180,320 H193" fill="none" stroke="#475569" stroke-width="1.6" marker-end="url(#a)"/>
+
+  <!-- ===== Professora ===== -->
+  <text x="195" y="80" font-size="14" font-weight="700" fill="#1e3a8a">PROFESSORA — ResNet-18 pré-treinada no ImageNet, congelada</text>
+  <g fill="#dbeafe" stroke="#2563eb" stroke-width="1.6">
+    <rect x="195" y="90" width="85" height="60" rx="8"/>
+    <rect x="300" y="90" width="85" height="60" rx="8"/>
+    <rect x="405" y="90" width="85" height="60" rx="8"/>
+    <rect x="510" y="90" width="85" height="60" rx="8"/>
+  </g>
+  <g text-anchor="middle" fill="#1e3a8a">
+    <text x="237.5" y="116" font-size="14" font-weight="600">Stem</text>
+    <text x="237.5" y="136" font-size="11">conv1 + pool</text>
+    <text x="342.5" y="116" font-size="14" font-weight="600">layer1</text>
+    <text x="342.5" y="136" font-size="12">64×64</text>
+    <text x="447.5" y="116" font-size="14" font-weight="600">layer2</text>
+    <text x="447.5" y="136" font-size="12">32×32</text>
+    <text x="552.5" y="116" font-size="14" font-weight="600">layer3</text>
+    <text x="552.5" y="136" font-size="12">16×16</text>
+  </g>
+  <g fill="none" stroke="#475569" stroke-width="1.6" marker-end="url(#a)">
+    <path d="M280,120 H298"/><path d="M385,120 H403"/><path d="M490,120 H508"/>
+  </g>
+
+  <!-- ===== Aluna ===== -->
+  <g fill="#ffedd5" stroke="#ea580c" stroke-width="1.6">
+    <rect x="195" y="290" width="85" height="60" rx="8"/>
+    <rect x="300" y="290" width="85" height="60" rx="8"/>
+    <rect x="405" y="290" width="85" height="60" rx="8"/>
+    <rect x="510" y="290" width="85" height="60" rx="8"/>
+  </g>
+  <g text-anchor="middle" fill="#7c2d12">
+    <text x="237.5" y="316" font-size="14" font-weight="600">Stem</text>
+    <text x="237.5" y="336" font-size="11">conv1 + pool</text>
+    <text x="342.5" y="316" font-size="14" font-weight="600">layer1</text>
+    <text x="342.5" y="336" font-size="12">64×64</text>
+    <text x="447.5" y="316" font-size="14" font-weight="600">layer2</text>
+    <text x="447.5" y="336" font-size="12">32×32</text>
+    <text x="552.5" y="316" font-size="14" font-weight="600">layer3</text>
+    <text x="552.5" y="336" font-size="12">16×16</text>
+  </g>
+  <g fill="none" stroke="#475569" stroke-width="1.6" marker-end="url(#a)">
+    <path d="M280,320 H298"/><path d="M385,320 H403"/><path d="M490,320 H508"/>
+  </g>
+  <text x="195" y="374" font-size="14" font-weight="700" fill="#7c2d12">ALUNA — mesma arquitetura, pesos aleatórios, treinável</text>
+
+  <!-- ===== Comparação Δ ===== -->
+  <rect x="290" y="195" width="315" height="50" rx="8" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.6"/>
+  <g text-anchor="middle" fill="#4c1d95">
+    <text x="342.5" y="214" font-size="14" font-weight="700">Δ₁</text>
+    <text x="447.5" y="214" font-size="14" font-weight="700">Δ₂</text>
+    <text x="552.5" y="214" font-size="14" font-weight="700">Δ₃</text>
+    <text x="447.5" y="234" font-size="11">½ ‖ T̂ − Ŝ ‖²  por posição (features L2-normalizadas)</text>
+  </g>
+  <g fill="none" stroke="#475569" stroke-width="1.6" marker-end="url(#a)">
+    <path d="M342.5,150 V193"/><path d="M447.5,150 V193"/><path d="M552.5,150 V193"/>
+    <path d="M342.5,290 V247"/><path d="M447.5,290 V247"/><path d="M552.5,290 V247"/>
+  </g>
+
+  <!-- ===== Caixa: como ler ===== -->
+  <rect x="710" y="85" width="460" height="290" rx="10" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="730" y="113" font-size="15" font-weight="700" fill="#0f172a">Como ler o esquema</text>
+  <rect x="730" y="128" width="18" height="14" rx="3" fill="#dbeafe" stroke="#2563eb" stroke-width="1.4"/>
+  <text x="758" y="140" font-size="13" fill="#0f172a">Congelada (nunca é atualizada)</text>
+  <rect x="730" y="152" width="18" height="14" rx="3" fill="#ffedd5" stroke="#ea580c" stroke-width="1.4"/>
+  <text x="758" y="164" font-size="13" fill="#0f172a">Treinável (única rede que aprende)</text>
+  <rect x="730" y="176" width="18" height="14" rx="3" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.4"/>
+  <text x="758" y="188" font-size="13" fill="#0f172a">Comparação entre as duas redes</text>
+
+  <text x="730" y="224" font-size="15" font-weight="700" fill="#0f172a">Intuição</text>
+  <g font-size="13" fill="#0f172a">
+    <text x="730" y="248">• Região normal: a aluna imita a professora, Δ ≈ 0.</text>
+    <text x="730" y="270">• Defeito que ela nunca viu: a imitação falha, Δ alto.</text>
+    <text x="730" y="292">• Δ por posição, nas 3 escalas, vira o mapa de anomalia.</text>
+    <text x="730" y="314">• O escore da imagem sai do mapa (o máximo).</text>
+  </g>
+  <text x="730" y="348" font-size="12" fill="#475569">T = features da professora · S = features da aluna (cada uma</text>
+  <text x="730" y="364" font-size="12" fill="#475569">normalizada em L2 ao longo dos canais, daí o chapéu).</text>
+
+  <!-- ===== Bifurcação para treino / inferência ===== -->
+  <path d="M605,220 H640 V415" fill="none" stroke="#475569" stroke-width="1.6"/>
+  <text x="650" y="318" font-size="12" font-weight="600" fill="#4c1d95">Δ₁ Δ₂ Δ₃</text>
+  <path d="M240,415 H820" fill="none" stroke="#475569" stroke-width="1.6"/>
+  <path d="M240,415 V443" fill="none" stroke="#475569" stroke-width="1.6" marker-end="url(#a)"/>
+  <path d="M820,415 V443" fill="none" stroke="#475569" stroke-width="1.6" marker-end="url(#a)"/>
+
+  <!-- ===== Painel de treino ===== -->
+  <rect x="30" y="445" width="420" height="300" rx="10" fill="#fff7ed" stroke="#fdba74"/>
+  <text x="50" y="473" font-size="15" font-weight="700" fill="#7c2d12">TREINO — só imagens normais</text>
+  <g fill="#ffffff" stroke="#ea580c" stroke-width="1.4">
+    <rect x="55" y="492" width="370" height="62" rx="8"/>
+    <rect x="55" y="582" width="370" height="62" rx="8"/>
+    <rect x="55" y="672" width="370" height="55" rx="8"/>
+  </g>
+  <g text-anchor="middle" fill="#7c2d12">
+    <text x="240" y="516" font-size="14" font-weight="700">Perda do STFPM</text>
+    <text x="240" y="538" font-size="13">média(Δ₁) + média(Δ₂) + média(Δ₃)</text>
+    <text x="240" y="606" font-size="14" font-weight="700">Retropropagação</text>
+    <text x="240" y="628" font-size="13">atualiza só os pesos da aluna (SGD)</text>
+    <text x="240" y="696" font-size="14" font-weight="700">100 épocas</text>
+    <text x="240" y="715" font-size="12">fica a época de menor perda na validação</text>
+  </g>
+  <g fill="none" stroke="#475569" stroke-width="1.6" marker-end="url(#a)">
+    <path d="M240,554 V580"/><path d="M240,644 V670"/>
+  </g>
+
+  <!-- ===== Painel de inferência ===== -->
+  <rect x="470" y="445" width="700" height="300" rx="10" fill="#f0fdf4" stroke="#86efac"/>
+  <text x="490" y="473" font-size="15" font-weight="700" fill="#166534">INFERÊNCIA — imagem de teste (sem retropropagação)</text>
+  <g fill="#ffffff" stroke="#16a34a" stroke-width="1.4">
+    <rect x="490" y="490" width="180" height="66" rx="8"/>
+    <rect x="700" y="490" width="180" height="66" rx="8"/>
+    <rect x="910" y="490" width="180" height="66" rx="8"/>
+  </g>
+  <g text-anchor="middle" fill="#14532d">
+    <text x="580" y="514" font-size="14" font-weight="700">Ampliar</text>
+    <text x="580" y="534" font-size="12">Δ₁, Δ₂, Δ₃ para 256×256</text>
+    <text x="790" y="510" font-size="14" font-weight="700">Padronizar e somar</text>
+    <text x="790" y="528" font-size="12">cada escala com média e σ</text>
+    <text x="790" y="544" font-size="12">da validação</text>
+    <text x="1000" y="514" font-size="14" font-weight="700">Suavização gaussiana</text>
+    <text x="1000" y="534" font-size="12">σ = 8</text>
+  </g>
+  <g fill="none" stroke="#475569" stroke-width="1.6" marker-end="url(#a)">
+    <path d="M670,523 H698"/><path d="M880,523 H908"/>
+  </g>
+
+  <!-- fork das saídas -->
+  <path d="M1000,556 V584 M560,584 H1000" fill="none" stroke="#475569" stroke-width="1.6"/>
+  <path d="M560,584 V602" fill="none" stroke="#475569" stroke-width="1.6" marker-end="url(#a)"/>
+  <path d="M960,584 V602" fill="none" stroke="#475569" stroke-width="1.6" marker-end="url(#a)"/>
+
+  <!-- saída 1: mapa -->
+  <rect x="500" y="604" width="110" height="110" rx="6" fill="#1e3a8a"/>
+  <rect x="500" y="604" width="110" height="110" rx="6" fill="url(#heat)"/>
+  <path d="M533,650 C535,638 552,636 558,646 C565,658 556,674 544,674 C534,672 531,662 533,650 Z" fill="none" stroke="#ffffff" stroke-width="1.6"/>
+  <g fill="#14532d">
+    <text x="626" y="640" font-size="14" font-weight="700">Mapa de anomalia</text>
+    <text x="626" y="660" font-size="12">localização por pixel</text>
+    <text x="626" y="678" font-size="12">(contorno branco = máscara</text>
+    <text x="626" y="694" font-size="12">real, só para avaliar)</text>
+    <text x="626" y="712" font-size="12" font-weight="600">métricas: AUROC px, AU-PRO</text>
+  </g>
+
+  <!-- saída 2: escore -->
+  <rect x="810" y="604" width="330" height="110" rx="8" fill="#ffffff" stroke="#16a34a" stroke-width="1.4"/>
+  <g fill="#14532d">
+    <text x="830" y="632" font-size="14" font-weight="700">Escore da imagem = máximo do mapa</text>
+    <text x="830" y="654" font-size="12">detecção: normal ou anômala?</text>
+    <text x="830" y="674" font-size="12">ex. (chewinggum): normal ≈ 2,9 · defeito ≈ 50,9</text>
+    <text x="830" y="698" font-size="12" font-weight="600">métrica: AUROC de imagem</text>
+  </g>
+
+  <text x="490" y="735" font-size="11" fill="#475569">Configuração escolhida na validação com CutPaste (sem tocar no teste): sem data augmentation · soma normalizada + máximo · σ = 8</text>
+</svg>
