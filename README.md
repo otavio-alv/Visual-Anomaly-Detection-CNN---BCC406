@@ -8,6 +8,10 @@ Detecção **one-class** de defeitos industriais no benchmark [VisA](https://git
 
 Defeitos industriais são raros, variados e imprevisíveis, não dá para coletar exemplos de todos. O que existe em abundância são fotos de produtos **normais**. A tarefa é aprender "o que é normal" e sinalizar desvios, sem nunca ver um defeito real no treino (protocolo one-class: o teste é usado uma única vez, só na avaliação final).
 
+<img width="1491" height="516" alt="image" src="https://github.com/user-attachments/assets/2f2641f1-4c5e-492b-9250-d48c379521de" />
+<img width="1486" height="516" alt="image" src="https://github.com/user-attachments/assets/225b3f42-b02b-42f9-b2d1-4535b84d953d" />
+
+
 ## Método
 
 **STFPM** — *Student-Teacher Feature Pyramid Matching* (Wang et al., BMVC 2021), implementado do zero em PyTorch:
@@ -19,7 +23,11 @@ Defeitos industriais são raros, variados e imprevisíveis, não dá para coleta
 
 ### Seleção de hiperparâmetros sem tocar no teste
 
-Como o split de validação só tem normais, criamos **anomalias sintéticas de validação** (CutPaste: um retângulo da própria imagem colado em outra posição — nunca usadas no treino). O AUROC-proxy {val normal vs. val danificada} escolhe, antes de qualquer contato com o teste:
+Como o split de validação só tem normais, criamos **anomalias sintéticas de validação** (CutPaste: um retângulo da própria imagem colado em outra posição — nunca usadas no treino). 
+
+<img width="1487" height="495" alt="image" src="https://github.com/user-attachments/assets/372625ad-343c-4251-951d-ce8034c487cd" />
+
+O AUROC-proxy {val normal vs. val danificada} escolhe, antes de qualquer contato com o teste:
 
 - **data augmentation** on/off (flips aleatórios no treino — cada categoria tem duas alunas treinadas);
 - **σ** da suavização gaussiana do mapa ∈ {2, 4, 8};
@@ -30,6 +38,8 @@ Fluxo do notebook: treinar → escolher pela validação sintética → avaliar 
 Treino: 100 épocas, SGD (lr 0,4, momentum 0,9, wd 1e-4), batch 32, imagens 256×256, precisão mista; época final = menor perda de validação. Um modelo por categoria (~2,8M parâmetros treináveis; ~2–4 min/categoria numa T4, 33 min no total; inferência ~10 ms/imagem).
 
 ## Resultados (avaliação oficial do kit, 256×256)
+
+<img width="1132" height="467" alt="image" src="https://github.com/user-attachments/assets/70231337-64f3-4619-a528-e6b2daa39402" />
 
 | Categoria | AUROC img (%) | AUROC px (%) | AU-PRO@30% (%) |
 |---|---|---|---|
@@ -46,6 +56,15 @@ Treino: 100 épocas, SGD (lr 0,4, momentum 0,9, wd 1e-4), batch 32, imagens 256�
 | pcb4 | 99,01 | 98,67 | 91,30 |
 | pipe_fryum | 99,06 | 99,06 | 93,67 |
 | **MÉDIA** | **93,96** | **98,61** | **91,34** |
+
+<img width="1360" height="686" alt="image" src="https://github.com/user-attachments/assets/12ad22eb-10aa-4fee-be2b-9daa7b06243a" />
+
+<img width="1353" height="685" alt="image" src="https://github.com/user-attachments/assets/935d7722-a7a2-4e51-abd9-12d7dd0d77ff" />
+
+<img width="1359" height="689" alt="image" src="https://github.com/user-attachments/assets/6b4439ac-b51c-4794-ad16-29fba6fa1e34" />
+
+<img width="2393" height="625" alt="image" src="https://github.com/user-attachments/assets/33bc79d2-25c3-4d16-8e14-ff8da41dcdb7" />
+
 
 Baseline do kit (ResNet-18 congelada + distância à média por posição, sem treino): 77,3% de AUROC de imagem. O notebook também traz ablação (aluna sem treino), comparação de regras de pontuação, curvas ROC e de perda, custo computacional e análise qualitativa (VP/VN/FP/FN com mapas).
 
